@@ -1,0 +1,11 @@
+{
+  "name": "FrançaisHub",
+  "short_name": "FrançaisHub",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f7",
+  "theme_color": "#183b56",
+  "description": "French dictionary, grammar, vocabulary, translation, daily news and French word games.",
+  "lang": "en",
+  "icons": []
+}
