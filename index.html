@@ -180,10 +180,10 @@ function tabButtons(){tabs.innerHTML=TABS.map(t=>`<button data-tab="${t[0]}">${t
 function shell(id,title,sub,body){return `<section class="view" id="${id}"><div class="hero"><h1>${title}</h1><p>${sub}</p></div>${body}</section>`}
 function render(){
  app.innerHTML=[
- shell("home","French, one search away.","A fast mobile reference for vocabulary, grammar, translation, conjugation and natural French.",`<div class="searchWrap"><div class="searchBox">⌕ <input id="search" autocomplete="off" placeholder="Search: avoir, passé composé, although, fiable…"><span class="kbd">⌘K</span></div><div class="results" id="results"></div></div><div class="chips" id="chips">${["avoir","passé composé","subjonctif","bien que","formal complaint","synonyms"].map(x=>`<button data-q="${x}">${x}</button>`).join("")}</div><div class="grid"><button class="card" data-go="dictionary"><h3>📖 Dictionary</h3><p class="muted">Meaning, level, examples and related words.</p></button><button class="card" data-go="grammar"><h3>📚 Grammar</h3><p class="muted">Rules, exceptions and special usages.</p></button><button class="card" data-go="translation"><h3>🇬🇧→🇫🇷 Translation</h3><p class="muted">English ↔ French workspace.</p></button><button class="card" data-go="news"><h3>📰 Daily News</h3><p class="muted">French reading and vocabulary.</p></button></div>`),
+ shell("home","French, one search away.","A professional bilingual French reference with CEFR vocabulary, dictionary lookup, grammar, translation, news and learning tools.",`<div class="searchWrap"><div class="searchBox">⌕ <input id="search" autocomplete="off" placeholder="Search: avoir, passé composé, although, fiable…"><span class="kbd">⌘K</span></div><div class="results" id="results"></div></div><div class="chips" id="chips">${["avoir","passé composé","subjonctif","bien que","formal complaint","synonyms"].map(x=>`<button data-q="${x}">${x}</button>`).join("")}</div><div class="grid"><button class="card" data-go="dictionary"><h3>📖 Dictionary</h3><p class="muted">Meaning, level, examples and related words.</p></button><button class="card" data-go="grammar"><h3>📚 Grammar</h3><p class="muted">Rules, exceptions and special usages.</p></button><button class="card" data-go="translation"><h3>🇬🇧→🇫🇷 Translation</h3><p class="muted">English ↔ French workspace.</p></button><button class="card" data-go="news"><h3>📰 Daily News</h3><p class="muted">French reading and vocabulary.</p></button></div>`),
  shell("dictionary","French Dictionary","A larger CEFR-organized reference: B1, B2 and C1 vocabulary, meanings, collocations, synonyms and antonyms.",`<div class="searchBox"><input id="dictSearch" placeholder="Search word or English meaning…"></div><div class="chips" id="levelChips"><button data-level="all">All levels</button><button data-level="B1">B1</button><button data-level="B2">B2</button><button data-level="C1">C1</button></div><div class="grid" id="dictGrid" style="margin-top:12px"></div>`),
  shell("grammar","French Grammar","Rules, exceptions, examples and high-value B2–C1 structures.",`<div class="grid">${DATA.grammar.map(x=>`<article class="card"><span class="tag">${x[2]}</span><h3>${x[0]}</h3><p>${x[1]}</p></article>`).join("")}</div>`),
- shell("translation","English ↔ French Translation","Use this as a quick translation workspace. For nuanced passages, compare context rather than translating word-for-word.",`<div class="card"><textarea id="transIn" rows="7" style="width:100%;border:1px solid var(--line);border-radius:9px;padding:10px" placeholder="Enter English or French text…"></textarea><div style="display:flex;gap:8px;margin-top:10px"><button id="enfr">English → French</button><button id="fren">French → English</button></div><div id="transOut" class="answer" style="display:block;margin-top:14px">Translation output will appear here.</div></div>`),
+ shell("translation","English ↔ French Translation","Professional bilingual workspace with word-level lookup, definitions and context-aware machine translation fallback.",`<div class="card"><div class="tag">Direction</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px"><button id="enfr">🇬🇧 English → French</button><button id="fren">🇫🇷 French → English</button></div><textarea id="transIn" rows="7" style="width:100%;border:1px solid var(--line);border-radius:9px;padding:10px" placeholder="Enter a word, expression or sentence…"></textarea><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" id="translateNow">Translate</button><button id="clearTrans">Clear</button></div><div id="transStatus" class="muted" style="margin-top:10px"></div><div id="transOut" style="margin-top:14px">Translation output will appear here.</div></div><div class="card" style="margin-top:12px"><h3>Dictionary quality</h3><p>For word lookups, FrançaisHub combines its curated CEFR entries with online dictionary data. Sentence translation uses an online translation service and should be checked for context, register and idiom.</p><p class="muted">Oxford Dictionaries API can provide authoritative dictionary data, but its current bilingual datasets do not include English ↔ French. A licensed Oxford integration can be added later if Oxford releases/supports that language pair.</p></div>`),
  shell("synonyms","French Synonyms & Antonyms","Compare meaning, register and nuance.",`<div class="grid">${DATA.syn.map(x=>`<article class="card"><div class="word">${x[0]}</div><p><b>Synonyms:</b> ${x[1]}</p><p><b>Antonyms:</b> ${x[2]}</p><p class="muted">${x[3]}</p></article>`).join("")}</div>`),
  shell("phrases","Popular French Phrases & Idioms","Natural expressions with meaning and examples.",`<div class="grid">${DATA.phrases.map(x=>`<article class="card"><div class="word">${x[0]}</div><span class="tag">${x[3]}</span><p>${x[1]}</p><p><i>${x[2]}</i></p></article>`).join("")}</div>`),
  shell("vocabulary","French Vocabulary","A dedicated CEFR vocabulary bank with meanings, collocations, synonyms and antonyms.",`<div class="searchBox"><input id="vocabSearch" placeholder="Search vocabulary…"></div><div class="chips" id="vocabLevels"><button data-level="all">All</button><button data-level="B1">B1</button><button data-level="B2">B2</button><button data-level="C1">C1</button></div><div class="grid" id="vocabGrid" style="margin-top:12px"></div>`),
@@ -225,23 +225,59 @@ function bind(){
  tabButtons();
  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
  document.querySelectorAll(".reveal").forEach(b=>b.onclick=()=>{b.nextElementSibling.style.display=b.nextElementSibling.style.display==="block"?"none":"block"});
- document.querySelectorAll("#chips button").forEach(b=>b.onclick=()=>{const s=document.getElementById("search");s.value=b.dataset.q;s.dispatchEvent(new Event("input"));s.focus()});
+ document.querySelectorAll("#chips button").forEach(b=>b.onclick=()=>{const s=document.getElementById("search");if(s){s.value=b.dataset.q;s.dispatchEvent(new Event("input"));s.focus()}});
  const s=document.getElementById("search"),r=document.getElementById("results");
- if(s){s.oninput=()=>{const a=searchIndex(s.value);r.innerHTML=a.length?a.map((x,i)=>`<button class="result" data-i="${i}"><span class="tag">${x[0]}</span><b>${esc(x[1])}</b><small>${esc(x[2])}</small></button>`).join(""):`<div class="result">No local result. Try another spelling, or wait for an online French dictionary lookup.</div>`;r.style.display=s.value.trim()?"block":"none";r.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{const x=a[+b.dataset.i];r.style.display="none";x[0]==="Dictionary"?detail(x[4]):go(x[3])})}}
+ if(s){
+  s.oninput=async()=>{
+   const q=s.value.trim(),a=searchIndex(q);
+   r.innerHTML=a.length?a.map((x,i)=>`<button class="result" data-i="${i}"><span class="tag">${x[0]}</span><b>${esc(x[1])}</b><small>${esc(x[2])}</small></button>`).join(""):(q?`<div class="result">Searching online…</div>`:`<div class="result">Type a word or phrase.</div>`);
+   r.style.display=q?"block":"none";
+   r.querySelectorAll("[data-i]").forEach(btn=>btn.onclick=()=>{const x=a[+btn.dataset.i];r.style.display="none";x[0]==="Dictionary"?detail(x[4]):go(x[3])});
+   if(!a.length&&q.length>=2){
+    const x=await onlineUniversalLookup(q);
+    if(x&&s.value.trim()===q){r.innerHTML=`<button class="result" id="onlineResult"><span class="tag">Online dictionary</span><b>${esc(x.word||q)}</b><small>${esc(x.summary)}</small></button>`;document.getElementById("onlineResult").onclick=()=>{r.style.display="none";showOnlineEntry(x)}}
+    else if(!x&&s.value.trim()===q)r.innerHTML=`<div class="result"><b>No result found.</b><small>Try another spelling or use the Translation tab.</small></div>`;
+   }
+  };
+ }
  const d=document.getElementById("dictSearch");if(d)d.oninput=()=>renderDict(d.value);
  const vc=document.getElementById("vocabSearch");if(vc)vc.oninput=()=>renderVocab(vc.value);
  document.querySelectorAll("#levelChips button").forEach(b=>b.onclick=()=>{dictLevel=b.dataset.level;renderDict(document.getElementById("dictSearch")?.value||"")});
  document.querySelectorAll("#vocabLevels button").forEach(b=>b.onclick=()=>{vocabLevel=b.dataset.level;renderVocab(document.getElementById("vocabSearch")?.value||"")});
  const v=document.getElementById("verbSearch");if(v)v.oninput=()=>renderConj(v.value);
- const ei=document.getElementById("enfr"),fe=document.getElementById("fren");
- if(ei)ei.onclick=()=>document.getElementById("transOut").textContent="Use the vocabulary and grammar references on this site to build a context-appropriate French translation.";
- if(fe)fe.onclick=()=>document.getElementById("transOut").textContent="Use the dictionary and phrase sections to check context, register and natural French equivalents.";
+ let translationDirection="en-fr";
+ const ei=document.getElementById("enfr"),fe=document.getElementById("fren"),goTrans=document.getElementById("translateNow"),clearTrans=document.getElementById("clearTrans");
+ if(ei)ei.onclick=()=>{translationDirection="en-fr";ei.classList.add("primary");fe?.classList.remove("primary")};
+ if(fe)fe.onclick=()=>{translationDirection="fr-en";fe.classList.add("primary");ei?.classList.remove("primary")};
+ if(goTrans)goTrans.onclick=()=>runTranslation(translationDirection);
+ if(clearTrans)clearTrans.onclick=()=>{document.getElementById("transIn").value="";document.getElementById("transOut").textContent="Translation output will appear here.";document.getElementById("transStatus").textContent=""};
 }
 let dictLevel="all",vocabLevel="all";
 function wordCard(w){return `<article class="card" style="cursor:pointer" data-word="${esc(w[0])}"><div class="word">${esc(w[0])}</div><span class="tag">${esc(w[2])} • ${esc(w[3])}</span><p>${esc(w[1])}</p><p><b>Synonyms:</b> ${esc(w[5])}</p><p><b>Antonyms:</b> ${esc(w[6])}</p><p class="muted">${esc(w[4])}</p></article>`}
 function renderDict(q=""){const n=q.toLowerCase().trim(),g=document.getElementById("dictGrid");if(!g)return;g.innerHTML=DATA.words.filter(w=>(dictLevel==="all"||w[3].includes(dictLevel))&&(!n||w.join(" ").toLowerCase().includes(n))).map(wordCard).join("")||'<div class="card">No matching word.</div>';g.querySelectorAll("[data-word]").forEach(c=>c.onclick=()=>detail(c.dataset.word))}
 function renderVocab(q=""){const n=q.toLowerCase().trim(),g=document.getElementById("vocabGrid");if(!g)return;g.innerHTML=DATA.words.filter(w=>(vocabLevel==="all"||w[3].includes(vocabLevel))&&(!n||w.join(" ").toLowerCase().includes(n))).map(wordCard).join("")||'<div class="card">No matching vocabulary.</div>';g.querySelectorAll("[data-word]").forEach(c=>c.onclick=()=>detail(c.dataset.word))}
 function renderConj(q=""){const n=q.toLowerCase().trim(),g=document.getElementById("conjGrid");if(!g)return;g.innerHTML=Object.entries(DATA.conj).filter(([v])=>!n||v.includes(n)).map(([v,f])=>`<article class="card"><div class="word">${v}</div><span class="tag">présent</span>${f.map(x=>`<p>${x}</p>`).join("")}</article>`).join("")||'<div class="card">No matching verb.</div>'}
+async function fetchDictionaryEntry(lang,q){
+ try{const r=await fetch("https://api.dictionaryapi.dev/api/v2/entries/"+lang+"/"+encodeURIComponent(q.trim()),{cache:"no-store"});if(!r.ok)return null;const j=await r.json();return j[0]||null}catch(e){return null}
+}
+function flattenDefinitions(entry){
+ if(!entry)return[];const out=[];(entry.meanings||[]).forEach(m=>(m.definitions||[]).slice(0,3).forEach(d=>out.push({pos:m.partOfSpeech,definition:d.definition,example:d.example||""})));return out.slice(0,8)
+}
+async function runTranslation(){
+ const input=document.getElementById("transIn")?.value.trim(),out=document.getElementById("transOut"),status=document.getElementById("transStatus");if(!input||!out)return;
+ status.textContent="Looking up dictionary data…";out.innerHTML="";
+ const src=translationDirection==="en-fr"?"en":"fr",dst=translationDirection==="en-fr"?"fr":"en";
+ if(input.split(/\s+/).length<=4){
+  const entry=await fetchDictionaryEntry(src,input);const defs=flattenDefinitions(entry);
+  if(defs.length){out.innerHTML='<div class="tag">'+esc(src.toUpperCase())+' dictionary</div><div class="word">'+esc(entry.word||input)+'</div>'+defs.map(d=>'<div class="card" style="margin-top:8px"><b>'+esc(d.pos||"word")+'</b><p>'+esc(d.definition)+'</p>'+(d.example?'<p class="muted"><i>'+esc(d.example)+'</i></p>':"")+'</div>').join("");status.textContent="Dictionary entry found. Translating as well…";}
+ }
+ try{
+  const url="https://api.mymemory.translated.net/get?q="+encodeURIComponent(input)+"&langpair="+src+"|"+dst;
+  const r=await fetch(url,{cache:"no-store"});const j=await r.json();const tr=j?.responseData?.translatedText;
+  if(tr){out.innerHTML+=(out.innerHTML?'<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">':"")+ '<div class="tag">'+src.toUpperCase()+" → "+dst.toUpperCase()+' translation</div><div style="font-size:20px;font-weight:650;margin-top:6px">'+esc(tr)+'</div>';status.textContent="Online translation complete. Check context and register for important writing.";return}
+ }catch(e){}
+ status.textContent="Online translation service was unavailable. Showing local dictionary information where available.";if(!out.innerHTML)out.textContent="No online result was returned. Try another spelling or a shorter phrase.";
+}
 render();bind();renderDict();renderVocab();renderConj();go("home");
 document.getElementById("homeBtn").onclick=()=>go("home");
 document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();const s=document.getElementById("search");go("home");setTimeout(()=>{s&&s.focus()},0)}});
@@ -310,6 +346,12 @@ async function loadLiveNews(){
   grid.innerHTML=DATA.news.map(x=>'<a class="card newsCard" href="'+x[3]+'" target="_blank" rel="noopener noreferrer"><span class="tag">'+esc(x[1])+'</span><h3>'+esc(x[0])+' ↗</h3><p>'+esc(x[2])+'</p><p class="newsMeta">Open official live source</p></a>').join("");
  }
 }
+async function onlineUniversalLookup(q){
+ const fr=await fetchDictionaryEntry("fr",q);if(fr){const defs=flattenDefinitions(fr);return {word:fr.word||q,summary:defs[0]?.definition||"French dictionary entry",lang:"fr",entry:fr}}
+ const en=await fetchDictionaryEntry("en",q);if(en){const defs=flattenDefinitions(en);return {word:en.word||q,summary:defs[0]?.definition||"English dictionary entry",lang:"en",entry:en}}
+ return null;
+}
+function showOnlineEntry(x){const defs=flattenDefinitions(x.entry);app.innerHTML=shell("onlineDetail","Online Dictionary","Online word reference.",`<div class="card"><button class="back" id="onlineBack">← Back</button><div class="word">${esc(x.word)}</div><span class="tag">${esc(x.lang.toUpperCase())} • Online</span>${defs.map(d=>`<div class="card" style="margin-top:9px"><b>${esc(d.pos||"word")}</b><p>${esc(d.definition)}</p>${d.example?`<p class="muted"><i>${esc(d.example)}</i></p>`:""}</div>`).join("")}<button id="onlineSpeak" style="margin-top:10px">🔊 Hear pronunciation</button></div>`);document.querySelector(".view").classList.add("active");document.getElementById("onlineBack").onclick=()=>{render();bind();go("home")};document.getElementById("onlineSpeak").onclick=()=>{const u=new SpeechSynthesisUtterance(x.word);u.lang=x.lang==="fr"?"fr-FR":"en-GB";speechSynthesis.speak(u)}}
 async function onlineFrenchLookup(q){
  if(!/^[A-Za-zÀ-ÿŒœÆæ -]+$/.test(q)||q.length<2)return null;
  try{
