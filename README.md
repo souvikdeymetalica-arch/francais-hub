@@ -1,14 +1,12 @@
-# FrançaisHub v13
+# FrançaisHub v14
 
-Professional mobile-first French reference website.
+Corrected deployment build.
 
-Added:
-- Expanded B1/B2/C1 dictionary and vocabulary
-- Synonyms and antonyms
-- Live-news fetching with official-source fallback
-- French crossword vocabulary game
-- Online French dictionary API fallback
-- PWA manifest for installable mobile use
+- Fixed the JavaScript syntax error that caused the published site to show only the header/footer.
+- Includes the crossword tab.
+- Includes live-news fetching with official-source fallback.
+- Includes online French dictionary lookup fallback.
+- Includes PWA manifest.
+- Mobile-first layout.
 
-Deployment:
-This is a static site ready for GitHub Pages, Netlify or Vercel. A permanent public URL requires publishing the files to a hosting account. The local sandbox cannot itself create a public website URL.
+Deploy by replacing `index.html` and uploading `manifest.json` to the GitHub repository root.
